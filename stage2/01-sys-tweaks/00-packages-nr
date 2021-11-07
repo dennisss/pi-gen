@@ -1,1 +1,12 @@
-cifs-utils
+ssh less sudo crda
+debconf-utils parted
+hardlink ca-certificates
+usbutils
+raspberrypi-sys-mods
+usb-modeswitch
+rng-tools
+ethtool
+vl805fw
+pciutils
+rpi-eeprom
+uidmap

@@ -17,4 +17,14 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
+# Disable WiFi if wired.
+# Based on https://raspberrypi.stackexchange.com/a/54269
+logger "Checking Network interfaces..."
+if ethtool eth0 | egrep "Link.*yes" && ifconfig eth0 | grep "inet"; then
+  logger 'Disabling WiFi...'
+  ifconfig wlan0 down
+else
+  logger 'WiFi is still enabled: Ethernet is down or ethtool is not installed.'
+fi
+
 exit 0
