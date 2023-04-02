@@ -1,0 +1,1 @@
+SUBSYSTEM=="periphmem", GROUP="gpio", MODE="0660"

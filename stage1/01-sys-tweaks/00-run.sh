@@ -15,4 +15,4 @@ fi
 echo "root:root" | chpasswd
 EOF
 
-
+echo btrfs >> "${ROOTFS_DIR}/etc/initramfs-tools/modules"

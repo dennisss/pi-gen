@@ -7,9 +7,6 @@ sed -i 's/^update_initramfs=.*/update_initramfs=all/' "${ROOTFS_DIR}/etc/initram
 
 on_chroot << EOF
 update-initramfs -k all -c
-if [ -x /etc/init.d/fake-hwclock ]; then
-	/etc/init.d/fake-hwclock stop
-fi
 if hash hardlink 2>/dev/null; then
 	hardlink -t /usr/share/doc
 fi
@@ -93,8 +90,8 @@ mv "$INFO_FILE" "$DEPLOY_DIR/"
 if [ "${USE_QCOW2}" = "0" ] && [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 	ROOT_DEV="$(mount | grep "${ROOTFS_DIR} " | cut -f1 -d' ')"
 
+	fstrim "${ROOTFS_DIR}"
 	unmount "${ROOTFS_DIR}"
-	zerofree "${ROOT_DEV}"
 
 	unmount_image "${IMG_FILE}"
 else

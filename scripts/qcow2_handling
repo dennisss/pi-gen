@@ -56,7 +56,7 @@ export -f disconnect_blkdev
 # mount qcow2 image: mount_image <image file> <mountpoint>
 mount_qimage() {
 	connect_blkdev "$1"
-	mount -v -t ext4 $MAP_ROOT_DEV "$2"
+	mount -v -t btrfs $MAP_ROOT_DEV "$2"
 	mkdir -p "${ROOTFS_DIR}/boot"
 	mount -v -t vfat $MAP_BOOT_DEV "$2/boot"
 	CURRENT_MOUNTPOINT="$2"
@@ -110,7 +110,7 @@ EOF
 				sync
 				kpartx -as $NBD_DEV
 				mkdosfs -n boot -F 32 -s 4 -v $MAP_BOOT_DEV
-				mkfs.ext4 -L rootfs -O "^huge_file,^64bit" $MAP_ROOT_DEV
+				mkfs.btrfs -L rootfs $MAP_ROOT_DEV
 				sync
 			else
 				if [ ! -f "${WORK_DIR}/image-${PREV_STAGE}.qcow2" ]; then
@@ -126,7 +126,7 @@ EOF
 				kpartx -as $NBD_DEV
 			fi
 
-			mount -v -t ext4 $MAP_ROOT_DEV "${ROOTFS_DIR}"
+			mount -v -t btrfs $MAP_ROOT_DEV "${ROOTFS_DIR}"
 			mkdir -p "${ROOTFS_DIR}/boot"
 			mount -v -t vfat $MAP_BOOT_DEV "${ROOTFS_DIR}/boot"
 			CURRENT_IMAGE=${WORK_DIR}/image-${STAGE}.qcow2
@@ -160,8 +160,8 @@ function resize_qcow2() {
 	# ROOT_MARGIN=$((800*1024*1024))
 	ROOT_MARGIN=$((1*1024*1024))
 	PARTED_OUT=`parted -s -m "$NBD_DEV" unit B print`
-	PART_NO=`echo "$PARTED_OUT" | grep ext4 | awk -F: ' { print $1 } '`
-	PART_START=`echo "$PARTED_OUT" | grep ext4 | awk -F: ' { print substr($2,1,length($2)-1) } '`
+	PART_NO=`echo "$PARTED_OUT" | grep btrfs | awk -F: ' { print $1 } '`
+	PART_START=`echo "$PARTED_OUT" | grep btrfs | awk -F: ' { print substr($2,1,length($2)-1) } '`
 
 	e2fsck -y -f $MAP_ROOT_DEV || true
 

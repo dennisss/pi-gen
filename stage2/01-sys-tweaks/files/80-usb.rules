@@ -1,0 +1,6 @@
+# Allow access to all USB devices (aside from hub devices).
+SUBSYSTEM=="usb", ATTRS{idVendor}!="2109", ATTRS{idVendor}!="1d6b", MODE="0660", GROUP="plugdev"
+
+# Allow direct access to disk block devices (those named /dev/sdX).
+# This should exclude the boot SD Card which is normally /dev/mmcblk0
+SUBSYSTEM=="block", KERNEL=="sd*", MODE="0660", GROUP="edisk"

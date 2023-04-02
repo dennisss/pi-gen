@@ -1,9 +1,9 @@
 #!/bin/bash -e
 
-if [[ "${DISABLE_FIRST_BOOT_USER_RENAME}" == "0" ]]; then
-	on_chroot <<- EOF
-		SUDO_USER="${FIRST_USER_NAME}" rename-user -f -s
-	EOF
-else
-	rm -f "${ROOTFS_DIR}/etc/xdg/autostart/piwiz.desktop"
-fi
+# This likes to crash on startup so disable it.
+# (normally we should have removed this package so this should be a no-op but we may accidentally add the package back in the future.)
+on_chroot << EOF
+sudo systemctl mask userconfig
+EOF
+
+rm -f "${ROOTFS_DIR}/etc/xdg/autostart/piwiz.desktop"

@@ -136,6 +136,7 @@ time ${DOCKER} run \
   --name "${DOCKER_CMDLINE_NAME}" \
   --privileged \
   --cap-add=ALL \
+  --network=host \
   -v /dev:/dev \
   -v /lib/modules:/lib/modules \
   ${PIGEN_DOCKER_OPTS} \

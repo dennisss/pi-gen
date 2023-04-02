@@ -3,7 +3,6 @@ parted
 realpath:coreutils
 qemu-arm-static:qemu-user-static
 debootstrap
-zerofree
 zip
 mkdosfs:dosfstools
 capsh:libcap2-bin
@@ -21,3 +20,5 @@ qemu-nbd:qemu-utils
 kpartx
 gpg
 pigz
+dtc
+make
