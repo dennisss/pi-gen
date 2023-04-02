@@ -1,3 +1,15 @@
-cifs-utils
-rpicam-apps-lite
-mkvtoolnix
+libcamera-dev
+xorg-dev
+libglfw3-dev
+ssh less sudo
+debconf-utils parted
+hardlink ca-certificates
+usbutils
+usb-modeswitch
+rng-tools
+ethtool
+pciutils
+uidmap
+linux-headers
+raspberrypi-sys-mods
+rpi-eeprom

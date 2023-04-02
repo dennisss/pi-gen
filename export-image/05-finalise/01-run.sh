@@ -6,9 +6,6 @@ SBOM_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.sbom"
 
 on_chroot << EOF
 update-initramfs -k all -c
-if [ -x /etc/init.d/fake-hwclock ]; then
-	/etc/init.d/fake-hwclock stop
-fi
 if hash hardlink 2>/dev/null; then
 	hardlink -t /usr/share/doc
 fi
@@ -95,8 +92,8 @@ fi
 
 ROOT_DEV="$(awk "\$2 == \"${ROOTFS_DIR}\" {print \$1}" /etc/mtab)"
 
+fstrim "${ROOTFS_DIR}"
 unmount "${ROOTFS_DIR}"
-zerofree "${ROOT_DEV}"
 
 unmount_image "${IMG_FILE}"
 

@@ -3,12 +3,15 @@
 # Some settings may impact device functionality. See link above for details
 
 # Uncomment some or all of these to enable the optional hardware interfaces
-#dtparam=i2c_arm=on
+dtparam=i2c_arm=on
 #dtparam=i2s=on
-#dtparam=spi=on
+dtparam=spi=on
+
+# Enable I2C 0
+dtparam=i2c_vc=on
 
 # Enable audio (loads snd_bcm2835)
-dtparam=audio=on
+#dtparam=audio=on
 
 # Additional overlays and parameters are documented
 # /boot/firmware/overlays/README
@@ -23,6 +26,7 @@ display_auto_detect=1
 auto_initramfs=1
 
 # Enable DRM VC4 V3D driver
+# Will enable exporting the /dev/i2c* devices for the hdmi ports.
 dtoverlay=vc4-kms-v3d
 max_framebuffers=2
 
@@ -49,3 +53,16 @@ otg_mode=1
 dtoverlay=dwc2,dr_mode=host
 
 [all]
+# Uncomment If we want to always disable Wifi/BT.
+#dtoverlay=disable-wifi
+#dtoverlay=disable-bt
+
+dtoverlay=pwm
+
+# See https://www.jeffgeerling.com/blog/2021/taking-control-pi-poe-hats-overly-aggressive-fan
+dtparam=poe_fan_temp0=50000
+dtparam=poe_fan_temp1=60000
+dtparam=poe_fan_temp2=70000
+dtparam=poe_fan_temp3=80000
+
+dtoverlay=periphmem

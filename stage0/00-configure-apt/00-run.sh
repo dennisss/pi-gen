@@ -21,6 +21,7 @@ on_chroot <<- \EOF
 	elif [ "$ARCH" = "arm64" ]; then
 		dpkg --add-architecture armhf
 	fi
-	apt-get update
+	# Receiving stale updates is allowed since we allow using cached apt repos.
+	apt-get -o Acquire::Check-Valid-Until=false update
 	apt-get dist-upgrade -y
 EOF
